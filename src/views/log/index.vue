@@ -6,8 +6,8 @@
           v-for="item in appList"
           :key="item.value"
           :label="item.label"
-          :value="item.value">
-        </el-option>
+          :value="item.value"
+        />
       </el-select>
       <el-form-item label="级别">
         <el-input v-model="s_level" placeholder="级别" />
@@ -28,7 +28,7 @@
       highlight-current-row
     >
       <el-table-column align="center" label="ID" width="120">
-        <router-link slot-scope="scope" :to="'/log/detail/'+ scope.row.id" target="_blank">
+        <router-link slot-scope="scope" :to="{name:'detail', params:{'id':scope.row.id,'appcode':scope.row.appcode}}" target="_blank">
           {{ scope.row.id }}
         </router-link>
       </el-table-column>
@@ -79,10 +79,10 @@ export default {
   },
   data() {
     return {
-      s_appcode: "",
+      s_appcode: '',
       appList: [
-        //{label: "海鸥派OMS2", value:"hop-oms"},
-        //{label: "海鸥派TMS2", value:"hop-tms"}
+        // {label: "海鸥派OMS2", value:"hop-oms"},
+        // {label: "海鸥派TMS2", value:"hop-tms"}
       ],
       list: null,
       listLoading: true,
@@ -120,7 +120,7 @@ export default {
       getAppList(params).then(response => {
         const data = response.data
         this.appList = data.map(item => {
-          return {"label": item.name, "value": item.code}
+          return { 'label': item.name, 'value': item.code }
         })
       }).catch(e => {
 

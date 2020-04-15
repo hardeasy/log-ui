@@ -8,9 +8,9 @@ export function getList(params) {
   })
 }
 
-export function getDetail(id) {
+export function getDetail(params) {
   return request({
-    url: '/api/v1/logs/' + id,
-    method: 'GET',
+    url: '/api/v1/logs/' + params.appcode + '/' + params.id,
+    method: 'GET'
   })
 }

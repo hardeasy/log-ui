@@ -2,11 +2,11 @@
   <div class="app-container">
     <el-form rel="form" label-width="80px">
       <el-form-item label="ID">
-         {{ detail.id }}
+        {{ detail.id }}
       </el-form-item>
       <el-divider />
       <el-form-item label="时间">
-         {{ detail.time }}
+        {{ detail.time }}
       </el-form-item>
       <el-divider />
       <el-form-item label="级别">
@@ -26,18 +26,27 @@
 .el-form-item{margin-bottom: 0px;}
 </style>
 <script>
+import { getDetail } from '@/api/log'
+
 export default {
   data() {
     return {
-      detail:{ id: '750deHEBHmxdQjgEgwVw', level:"error", time:"2020-14-06 14:06", content: 'dsadasdas' }
+      detail: { id: '', level: '', time: '', content: '' }
     }
   },
   created() {
-    fetchData()
+    this.fetchData()
   },
   methods: {
     fetchData() {
-      
+      const params = {}
+      params.id = this.$route.params.id
+      params.appcode = this.$route.params.appcode
+      getDetail(params).then(response => {
+        this.detail = response.data
+      }).catch(e => {
+
+      })
     }
   }
 

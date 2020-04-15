@@ -67,7 +67,7 @@ export const constantRoutes = [
       },
       {
         hidden: true,
-        path: 'detail/:id',
+        path: 'detail/:appcode/:id',
         name: 'detail',
         meta: { title: '日志详情', activeMenu: '/log/index' },
         component: () => import('@/views/log/detail')
