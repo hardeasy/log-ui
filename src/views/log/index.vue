@@ -1,11 +1,19 @@
 <template>
   <div class="app-container">
     <el-form :inline="true">
+      <el-select v-model="s_appcode" placeholder="请选择应用">
+        <el-option
+          v-for="item in appList"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-select>
       <el-form-item label="级别">
         <el-input v-model="s_level" placeholder="级别" />
       </el-form-item>
       <el-form-item label="内容">
-        <el-input v-model="s_context" placeholder="内容" />
+        <el-input v-model="s_content" placeholder="内容" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">查询</el-button>
@@ -20,8 +28,8 @@
       highlight-current-row
     >
       <el-table-column align="center" label="ID" width="120">
-        <router-link slot-scope="scope" to="/log/detail" target="_blank">
-          {{ scope.$index }} {{ scope.row.id }}
+        <router-link slot-scope="scope" :to="'/log/detail/'+ scope.row.id" target="_blank">
+          {{ scope.row.id }}
         </router-link>
       </el-table-column>
       <el-table-column align="center" label="时间" width="200">
@@ -56,6 +64,7 @@
 
 <script>
 import { getList } from '@/api/log'
+import { getAppList } from '@/api/app'
 
 export default {
   filters: {
@@ -70,32 +79,51 @@ export default {
   },
   data() {
     return {
+      s_appcode: "",
+      appList: [
+        //{label: "海鸥派OMS2", value:"hop-oms"},
+        //{label: "海鸥派TMS2", value:"hop-tms"}
+      ],
       list: null,
       listLoading: true,
       page: 1,
       total: 0,
       pageSize: 12,
       s_level: '',
-      s_context: ''
+      s_content: ''
     }
   },
   created() {
     this.fetchData()
+    this.fetchAppList()
   },
   methods: {
     fetchData() {
       this.listLoading = true
       const params = {}
       params.page = this.page
-      params.url = this.s_url
-      params.category = this.s_category
-      params.context = this.s_context
+      params.pageSize = this.pageSize
+      params.content = this.s_content
+      params.appcode = this.s_appcode
+      params.level = this.s_level
       getList(params).then(response => {
         this.list = response.data.items
         this.listLoading = false
         this.total = response.data.total
       }).catch(e => {
         this.listLoading = false
+      })
+    },
+
+    fetchAppList() {
+      const params = {}
+      getAppList(params).then(response => {
+        const data = response.data
+        this.appList = data.map(item => {
+          return {"label": item.name, "value": item.code}
+        })
+      }).catch(e => {
+
       })
     },
 

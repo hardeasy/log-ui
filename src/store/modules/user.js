@@ -52,10 +52,11 @@ const actions = {
         if (!data) {
           reject('Verification failed, please Login again.')
         }
+        
+        data.avatar = "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif"
+        const { username, avatar } = data
 
-        const { name, avatar } = data
-
-        commit('SET_NAME', name)
+        commit('SET_NAME', username)
         commit('SET_AVATAR', avatar)
         resolve(data)
       }).catch(error => {
