@@ -28,9 +28,7 @@
       highlight-current-row
     >
       <el-table-column align="center" label="ID" width="120">
-        <router-link slot-scope="scope" :to="{name:'detail', params:{'id':scope.row.id,'appcode':scope.row.appcode}}" target="_blank">
-          {{ scope.row.id }}
-        </router-link>
+        <el-link slot-scope="scope" @click="showDetailBtnHandle(scope.row)">{{ scope.row.id }}</el-link>
       </el-table-column>
       <el-table-column align="center" label="时间" width="200">
         <template slot-scope="scope">
@@ -59,12 +57,18 @@
         @current-change="pageChange"
       />
     </div>
+
+    <el-dialog title="编辑应用" :visible.sync="dialogTableVisible">
+			<c-detail :id.sync="show_detail_id" :appcode.sync="show_detail_appcode"></c-detail>
+		</el-dialog>
+
   </div>
 </template>
 
 <script>
 import { getList } from '@/api/log'
 import { getAppList } from '@/api/app'
+import Detail from './detail';
 
 export default {
   filters: {
@@ -79,6 +83,9 @@ export default {
   },
   data() {
     return {
+      dialogTableVisible: false,
+      show_detail_id: "",
+      show_detail_appcode: "",
       s_appcode: '',
       appList: [
         // {label: "海鸥派OMS2", value:"hop-oms"},
@@ -93,6 +100,10 @@ export default {
       s_content: ''
     }
   },
+  components: {
+    "c-detail": Detail
+  },
+
   created() {
     this.fetchData()
     this.fetchAppList()
@@ -107,7 +118,12 @@ export default {
       params.appcode = this.s_appcode
       params.level = this.s_level
       getList(params).then(response => {
-        this.list = response.data.items
+        var list  = response.data.items.map(function(item) {
+					item.content = item.content.slice(0, 500)
+					return item;
+				})
+
+        this.list = list
         this.listLoading = false
         this.total = response.data.total
       }).catch(e => {
@@ -134,6 +150,12 @@ export default {
 
     onSubmit() {
       this.fetchData()
+    },
+
+    showDetailBtnHandle(row) {
+      this.show_detail_id = row.id;
+      this.show_detail_appcode = row.appcode;
+      this.dialogTableVisible = true;
     }
   }
 }

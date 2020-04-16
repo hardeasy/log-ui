@@ -63,14 +63,20 @@ export const constantRoutes = [
         path: 'index',
         name: 'index',
         component: () => import('@/views/log/index'),
-        meta: { title: '日志', icon: 'form' }
-      },
+        meta: { title: '日志管理', icon: 'form' }
+      }
+    ]
+  },
+
+  {
+    path: '/app',
+    component: Layout,
+    children: [
       {
-        hidden: true,
-        path: 'detail/:appcode/:id',
-        name: 'detail',
-        meta: { title: '日志详情', activeMenu: '/log/index' },
-        component: () => import('@/views/log/detail')
+        path: 'index',
+        name: 'appIndex',
+        component: () => import('@/views/app/index'),
+        meta: { title: '应用管理', icon: 'form' }
       }
     ]
   },
