@@ -1,17 +1,19 @@
 import Mock from 'mockjs'
 
 const data = Mock.mock({
-  'items|30': [{
-    id: '@sentence(2)',
-    time: '@datetime',
-    level: '@sentence(1)',
-    content: '@sentence(50,100)'
+  'items|3': [{
+    id: '@integer(100,9999)',
+    name: '@cname()',
+    code: '@string(20)',
+    access_token: '@string(32)',
+    created_at: '@date()',
+    updated_at: '@date()'
   }]
 })
 
 export default [
   {
-    url: '/api/v1/logs',
+    url: '/api/v1/apps',
     type: 'get',
     response: config => {
       const items = data.items
