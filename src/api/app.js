@@ -23,3 +23,25 @@ export function editApp(data) {
     data
   })
 }
+
+export function getAppMembers(appid) {
+  return request({
+    url: '/api/v1/apps/' + appid + '/members',
+    method: 'get'
+  })
+}
+
+export function addAppMembers(appid, userIds) {
+  return request({
+    url: '/api/v1/apps/' + appid + '/members',
+    method: 'post',
+    data: { 'user_ids': userIds }
+  })
+}
+
+export function deleteAppMembers(appid, userId) {
+  return request({
+    url: '/api/v1/apps/' + appid + '/members/' + userId,
+    method: 'delete'
+  })
+}

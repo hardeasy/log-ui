@@ -59,8 +59,8 @@
     </div>
 
     <el-dialog title="编辑应用" :visible.sync="dialogTableVisible">
-			<c-detail :id.sync="show_detail_id" :appcode.sync="show_detail_appcode"></c-detail>
-		</el-dialog>
+      <c-detail :id.sync="show_detail_id" :appcode.sync="show_detail_appcode" />
+    </el-dialog>
 
   </div>
 </template>
@@ -68,7 +68,7 @@
 <script>
 import { getList } from '@/api/log'
 import { getAppList } from '@/api/app'
-import Detail from './detail';
+import Detail from './detail'
 
 export default {
   filters: {
@@ -81,11 +81,14 @@ export default {
       return statusMap[status]
     }
   },
+  components: {
+    'c-detail': Detail
+  },
   data() {
     return {
       dialogTableVisible: false,
-      show_detail_id: "",
-      show_detail_appcode: "",
+      show_detail_id: '',
+      show_detail_appcode: '',
       s_appcode: '',
       appList: [
         // {label: "海鸥派OMS2", value:"hop-oms"},
@@ -99,9 +102,6 @@ export default {
       s_level: '',
       s_content: ''
     }
-  },
-  components: {
-    "c-detail": Detail
   },
 
   created() {
@@ -118,10 +118,10 @@ export default {
       params.appcode = this.s_appcode
       params.level = this.s_level
       getList(params).then(response => {
-        var list  = response.data.items.map(function(item) {
-					item.content = item.content.slice(0, 500)
-					return item;
-				})
+        var list = response.data.items.map(function(item) {
+          item.content = item.content.slice(0, 500)
+          return item
+        })
 
         this.list = list
         this.listLoading = false
@@ -153,9 +153,9 @@ export default {
     },
 
     showDetailBtnHandle(row) {
-      this.show_detail_id = row.id;
-      this.show_detail_appcode = row.appcode;
-      this.dialogTableVisible = true;
+      this.show_detail_id = row.id
+      this.show_detail_appcode = row.appcode
+      this.dialogTableVisible = true
     }
   }
 }

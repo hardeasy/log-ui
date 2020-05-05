@@ -10,7 +10,21 @@ export function getList(params) {
 
 export function getDetail(params) {
   return request({
-    url: '/api/v1/logs/' + params.appcode + '/' + params.id,
+    url: '/api/v1/logs/' + params.id,
     method: 'GET'
+  })
+}
+
+export function getIndices() {
+  return request({
+    url: '/api/v1/indices',
+    method: 'GET'
+  })
+}
+
+export function deleteIndex(index) {
+  return request({
+    url: '/api/v1/indices/' + index,
+    method: 'delete'
   })
 }
